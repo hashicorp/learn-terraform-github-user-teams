@@ -8,9 +8,9 @@ resource "github_team_repository" "infrastructure" {
   for_each = {
     for team in local.repo_teams_files["infrastructure"] :
     team.team_name => {
-      team_id    = github_team.all_teams[team.team_name].id
+      team_id    = github_team.all[team.team_name].id
       permission = team.permission
-    }
+    } if lookup(github_team.all, team.team_name, false) != false
   }
 
   team_id    = each.value.team_id
@@ -28,9 +28,9 @@ resource "github_team_repository" "security" {
   for_each = {
     for team in local.repo_teams_files["application"] :
     team.team_name => {
-      team_id    = github_team.all_teams[team.team_name].id
+      team_id    = github_team.all[team.team_name].id
       permission = team.permission
-    }
+    } if lookup(github_team.all, team.team_name, false) != false
   }
 
   team_id    = each.value.team_id

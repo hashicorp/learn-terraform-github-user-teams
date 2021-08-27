@@ -10,7 +10,7 @@ locals {
   }
   team_members_temp = flatten([
     for team, members in local.team_members_files: [
-      for tn, t in github_team.all_teams: {
+      for tn, t in github_team.all: {
           name = t.name
           id = t.id
           slug = t.slug
