@@ -8,6 +8,7 @@ locals {
     for file in fileset(local.team_members_path, "*.csv") :
     trimsuffix(file, ".csv") => csvdecode(file("${local.team_members_path}/${file}"))
   }
+  # Create temp object that has team ID and CSV contents
   team_members_temp = flatten([
     for team, members in local.team_members_files : [
       for tn, t in github_team.all : {
@@ -18,13 +19,15 @@ locals {
       } if t.slug == team
     ]
   ])
-  team_members_temp2 = {
+  # Convert above value from list to map
+  team_members_temp1 = {
     for team in local.team_members_temp :
     team.name => team
   }
 
+  # Create object for each team-user relationship
   team_members = flatten([
-    for team in local.team_members_temp2 : [
+    for team in local.team_members_temp1 : [
       for member in team.members : {
         name     = "${team.slug}-${member.username}"
         team_id  = team.id
