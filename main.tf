@@ -9,28 +9,28 @@ locals {
     trimsuffix(file, ".csv") => csvdecode(file("${local.team_members_path}/${file}"))
   }
   team_members_temp = flatten([
-    for team, members in local.team_members_files: [
-      for tn, t in github_team.all: {
-          name = t.name
-          id = t.id
-          slug = t.slug
-          members = members
-        } if t.slug == team
+    for team, members in local.team_members_files : [
+      for tn, t in github_team.all : {
+        name    = t.name
+        id      = t.id
+        slug    = t.slug
+        members = members
+      } if t.slug == team
     ]
   ])
-  team_members_temp2 = { 
-    for team in local.team_members_temp: 
+  team_members_temp2 = {
+    for team in local.team_members_temp :
     team.name => team
   }
 
   team_members = flatten([
-    for team in local.team_members_temp2: [
-      for member in team.members: {
-          name = "${team.slug}-${member.username}"
-          team_id = team.id
-          username = member.username
-          role = member.role
-        }
+    for team in local.team_members_temp2 : [
+      for member in team.members : {
+        name     = "${team.slug}-${member.username}"
+        team_id  = team.id
+        username = member.username
+        role     = member.role
+      }
     ]
   ])
 
