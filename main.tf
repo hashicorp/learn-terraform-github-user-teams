@@ -19,15 +19,10 @@ locals {
       } if t.slug == team
     ]
   ])
-  # Convert above value from list to map
-  team_members_temp1 = {
-    for team in local.team_members_temp :
-    team.name => team
-  }
 
   # Create object for each team-user relationship
   team_members = flatten([
-    for team in local.team_members_temp1 : [
+    for team in local.team_members_temp : [
       for member in team.members : {
         name     = "${team.slug}-${member.username}"
         team_id  = team.id
