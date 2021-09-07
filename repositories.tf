@@ -24,7 +24,7 @@ resource "github_repository" "application" {
 }
 
 # Add memberships for application repository
-resource "github_team_repository" "security" {
+resource "github_team_repository" "application" {
   for_each = {
     for team in local.repo_teams_files["application"] :
     team.team_name => {
