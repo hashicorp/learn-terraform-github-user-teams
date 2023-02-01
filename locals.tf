@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # Create local values to retrieve items from CSVs
 locals {
   # Parse team member files
