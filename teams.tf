@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 resource "github_team" "all" {
   for_each = {
     for team in csvdecode(file("teams.csv")) :

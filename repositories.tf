@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # Create infrastructure repository
 resource "github_repository" "infrastructure" {
   name = "learn-tf-infrastructure"
